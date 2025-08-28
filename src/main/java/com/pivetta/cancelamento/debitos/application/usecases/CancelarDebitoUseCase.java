@@ -1,7 +1,6 @@
 package com.pivetta.cancelamento.debitos.application.usecases;
 
 import com.pivetta.cancelamento.debitos.adapters.in.consumer.mapper.EventoDebitoMessageMapper;
-import com.pivetta.cancelamento.debitos.application.core.domain.DebitoSqsMessage;
 import com.pivetta.cancelamento.debitos.application.core.domain.ResultadoCancelamento;
 import com.pivetta.cancelamento.debitos.application.core.mapper.ResultadoCancelamentoMapper;
 import com.pivetta.cancelamento.debitos.application.core.domain.model.Debito;
@@ -19,12 +18,11 @@ public record CancelarDebitoUseCase(
         ResultadoCancelamentoMapper resultadoCancelamentoMapper) implements CancelarDebitoInputPort {
 
     @Override
-    public ResultadoCancelamento executar(Debito debito) {
+    public void executar(Debito debito) {
         var decisao = politicaCancelamentoDebito.podeCancelar(debito);
         marcaDebitoComoCancelado(decisao, debito);
         ResultadoCancelamento resultadoCancelamento = resultadoCancelamentoMapper.toResultadoCancelamento(debito, decisao);
         publicarCancelamentoOutputPort.publicar(resultadoCancelamento);
-        return resultadoCancelamento;
     }
 
     private void marcaDebitoComoCancelado(DecisaoCancelamento decisao, Debito debito) {
