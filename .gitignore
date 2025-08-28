@@ -1,0 +1,6 @@
+.idea/
+*.iml
+target/
+.localstack/
+.mvn/wrapper/maven-wrapper.jar
+*.bkp

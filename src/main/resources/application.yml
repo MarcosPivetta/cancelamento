@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: cancelamento-debitos
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+app:
+  sqs:
+    fila-debitos: ${FILA_DEBITOS:fila-debitos}
+  sns:
+    topico-cancelamentos-arn: ${TOPICO_CANCELAMENTOS_ARN:arn:aws:sns:us-east-1:000000000000:topico-cancelamentos}
+
+spring:
+  cloud:
+    aws:
+      region:
+        static: us-east-1
+      credentials:
+        access-key: test
+        secret-key: test
+      sns:
+        endpoint: ${AWS_ENDPOINT:http://localhost:4566}
+      sqs:
+        endpoint: ${AWS_ENDPOINT:http://localhost:4566}
